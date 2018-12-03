@@ -1,0 +1,9 @@
+name: Algs
+main: mc.Setup
+version: 0.1
+depend: [WorldEdit, WorldGuard]
+
+commands:
+   startgame:
+     description: Starts the game.
+     usage: /<command>

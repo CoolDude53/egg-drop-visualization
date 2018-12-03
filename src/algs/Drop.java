@@ -83,6 +83,45 @@ public class Drop
         }
     }
 
+    public static int[][] gameDrop(int floors, int eggs)
+    {
+        int[][] grid = new int[floors][eggs];
+
+        for (int floor = 0; floor < floors; floor++)
+        {
+            for (int egg = 0; egg < eggs; egg++)
+            {
+                if (floor == 0 || egg == 0)
+                    grid[floor][egg] = 0;
+
+                else if (floor == 1)
+                    grid[floor][egg] = 1;
+
+                else if (egg == 1)
+                    grid[floor][egg] = floor;
+
+                else
+                {
+                    grid[floor][egg] = Integer.MAX_VALUE;
+
+                    for (int x = 1; x <= floor; x++)
+                    {
+                        int egg_break = grid[x - 1][egg - 1]; // if dropable breaks, we have one less and just try lower floors
+                        int egg_not_break = grid[floor - x][egg]; // if dropable doesn't break, we just try higher floors
+
+                        int drops = Math.max(egg_break, egg_not_break) + 1; // worst case between two cases above + 1 for current drop
+
+                        // if drops is less than current, update
+                        if (drops <  grid[floor][egg])
+                            grid[floor][egg] = drops;
+                    }
+                }
+            }
+        }
+
+        return grid;
+    }
+
     private void initialize()
     {
         this.dropDataArray = new DropData[floors + 1][eggs + 1];
