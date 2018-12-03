@@ -47,6 +47,7 @@ public class Mechanics
         }
 
         // clean up
+        gameMechanics.clean();
 
         // unregister all listeners just for good measure
         HandlerList.unregisterAll(plugin);

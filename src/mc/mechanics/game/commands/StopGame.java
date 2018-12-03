@@ -2,17 +2,16 @@ package mc.mechanics.game.commands;
 
 import mc.Setup;
 import mc.mechanics.game.GameMechanics;
-import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-public class StartGame implements CommandExecutor
+public class StopGame implements CommandExecutor
 {
     private final GameMechanics gameMechanics;
 
-    public StartGame(Setup plugin)
+    public StopGame(Setup plugin)
     {
         this.gameMechanics = plugin.getMechanics().getGameMechanics();
     }
@@ -26,23 +25,12 @@ public class StartGame implements CommandExecutor
 
             if (args.length == 0)
             {
-                gameMechanics.startGame(player);
-                return true;
-            }
-            else if (args.length == 2)
-            {
-                int floors, eggs;
-                try
+                if (gameMechanics.getGameMap().containsKey(player.getUniqueId()))
                 {
-                    floors = Integer.parseInt(args[0]) + 1;
-                    eggs = Integer.parseInt(args[1]) + 1;
-                } catch (NumberFormatException ex)
-                {
-                    player.sendMessage(ChatColor.RED + "Invalid Number!");
-                    return false;
+                    gameMechanics.getGameMap().get(player.getUniqueId()).clean();
+                    gameMechanics.getGameMap().remove(player.getUniqueId());
                 }
 
-                gameMechanics.startGame(player, floors, eggs);
                 return true;
             }
         }
